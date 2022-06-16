@@ -1,61 +1,34 @@
-// const path = require("path");
-// const dotenv = require("dotenv").config({
-//     path: path.join(__dirname, ".env"),
-// });
-// const webpack = require("webpack");
-// const nodeExternals = require("webpack-node-externals");
-import path from "path";
-import dotenv from "dotenv";
-import webpack from "webpack";
-import nodeExternals from "webpack-node-externals";
-import {dirname} from "path";
-import {fileURLToPath} from "url";
+const path = require("path");
+const dotenv = require("dotenv").config({
+    path: path.join(__dirname, ".env"),
+});
+const webpack = require("webpack");
+const nodeExternals = require("webpack-node-externals");
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-dotenv.config({path: path.join(__dirname, ".env")});
-
-export default {
+module.exports = {
     mode: "production",
-    entry: "./server.js",
+    entry: "./server.ts",
     output: {
         filename: "build.js",
         path: path.resolve(__dirname, "dist"),
     },
-
+    target: "node",
     plugins: [
         new webpack.DefinePlugin({
             "process.env": dotenv.parsed,
         }),
     ],
     externals: [nodeExternals()],
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                use: "ts-loader",
+                exclude: /node_modules/,
+            },
+        ],
+    },
+    resolve: {
+        extensions: [".ts", ".js"],
+    },
 };
-
-// import path from "path";
-// import dotenv from "dotenv";
-// import webpack from "webpack";
-// import nodeExternals from "webpack-node-externals";
-// import {dirname} from "path";
-// import {fileURLToPath} from "url";
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-
-// dotenv.config({path: path.join(__dirname, ".env")});
-
-// module.exports = {
-//     mode: "production",
-//     entry: "./server.js",
-//     output: {
-//         filename: "build.js",
-//         path: path.resolve(__dirname, "dist"),
-//     },
-//     target: "node",
-//     plugins: [
-//         new webpack.DefinePlugin({
-//             "process.env": dotenv.parsed,
-//         }),
-//     ],
-//     externals: [nodeExternals()],
-// };
