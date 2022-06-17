@@ -3,6 +3,7 @@
     "test": "jest --verbose",
     "test-coverage": "jest --coverage",
     "start:dev": "nodemon index.ts",
+    "start:multi": "nodemon index.ts -multi",
     "start:prod": "webpack && cd dist && node build.js"
   },
   "devDependencies": {
