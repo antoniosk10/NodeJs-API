@@ -1,4 +1,4 @@
-import { checkRequestURL } from "./checkRequestURL";
+import { isInvalidRequest } from "./isInvalidRequest";
 import { controller } from "../controller";
 import { checkMethod } from "./checkMethod";
 import { IncomingMessage } from "http";
@@ -11,7 +11,7 @@ export const getResponse = (req: IncomingMessage, body: DBItem): Response => {
 
   return (
     checkMethod(method as string) ||
-    checkRequestURL(url as string, method as string) ||
+    isInvalidRequest(url as string, method as string) ||
     controller[method as typeof AVAILABLE_METHODS[number]](body, id)
   );
 };

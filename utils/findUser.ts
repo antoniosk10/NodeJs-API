@@ -1,6 +1,6 @@
 import db from "../db";
 
-export const findPerson = (id: string) => {
+export const findUser = (id: string) => {
   const index = db.findIndex((el) => el.id === id);
   const data = db[index];
 
