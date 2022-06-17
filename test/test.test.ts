@@ -1,9 +1,9 @@
-import { server } from "../server.js";
+import { server } from "../server";
 import supertest from "supertest";
 const request = supertest(server);
 
 describe("test CRUD scenarios #1", () => {
-  let tempID;
+  let tempID: string;
   test("'GET /users' expect []", (done) => {
     request.get("/users").then((res) => {
       expect(res.status).toBe(200);
@@ -71,7 +71,7 @@ describe("test CRUD scenarios #1", () => {
 });
 
 describe("test CRUD scenarios #2", () => {
-  let tempID;
+  let tempID: string;
   test("'POST /users' expect received user", (done) => {
     const expectedObj = { name: "Ivan", age: 23, hobbies: ["football"] };
     request
@@ -107,7 +107,7 @@ describe("test CRUD scenarios #2", () => {
       .set("Accept", "application/json")
       .then((res) => {
         expect(res.status).toBe(400);
-        expect(res.body).toEqual("Method isn't availible");
+        expect(res.body).toEqual("Method isn't available");
         done();
       });
   });
@@ -122,7 +122,7 @@ describe("test CRUD scenarios #2", () => {
 });
 
 describe("test CRUD scenarios #3", () => {
-  let tempID;
+  let tempID: string;
   test("'GET /people' expect message 'Resource Not Found'", (done) => {
     request.get(`/people`).then((res) => {
       expect(res.status).toBe(404);
