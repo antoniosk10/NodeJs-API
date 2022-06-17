@@ -2,7 +2,7 @@
   "scripts": {
     "test": "jest --verbose",
     "test-coverage": "jest --coverage",
-    "start:dev": "nodemon server.ts",
+    "start:dev": "nodemon index.ts",
     "start:prod": "webpack && cd dist && node build.js"
   },
   "devDependencies": {

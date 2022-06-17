@@ -1,6 +1,6 @@
-import { server } from "../server";
+import { newServer } from "../server";
 import supertest from "supertest";
-const request = supertest(server);
+const request = supertest(newServer());
 
 describe("test CRUD scenarios #1", () => {
   let tempID: string;

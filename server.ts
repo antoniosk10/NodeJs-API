@@ -5,8 +5,8 @@ import { getResponse } from "./utils/getResponse";
 
 const PORT = parseInt(<string>process.env.PORT) || 3000;
 
-export const server = createServer(
-  (req: IncomingMessage, res: ServerResponse) => {
+export const newServer = () => {
+  const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     let body: any = [];
     res.setHeader("Content-Type", "application/json");
 
@@ -26,13 +26,14 @@ export const server = createServer(
           endRequest(res, { status: 500, message: "Something went wrong" });
         }
       });
-  }
-);
+  });
 
-server.listen(PORT, "localhost", () => {
-  console.log(`listening port ${PORT}`);
-});
+  server.listen(PORT, "localhost", () => {
+    console.log(`listening port ${PORT} on worker ${process.pid}`);
+  });
 
-server.on("error", (error) => {
-  console.log(error);
-});
+  server.on("error", (error) => {
+    console.log(error);
+  });
+  return server;
+};
