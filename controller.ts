@@ -10,9 +10,9 @@ const getUser = (_: DBItem, id: string) => {
   response.status = 200;
 
   if (id) {
-    response.data = db.filter((item) => item.id === id);
+    response.data = db.find((item) => item.id === id);
 
-    if (response.data.length) {
+    if (response.data) {
       return response;
     }
 
@@ -29,7 +29,7 @@ const getUser = (_: DBItem, id: string) => {
 const addUser = (bodyRequest: BodyRequest) => {
   if (dataIsValid(bodyRequest)) {
     const newId: string = uuidv4();
-    const newField: DBItem = { ...bodyRequest, id: newId };
+    const newField: DBItem = { id: newId, ...bodyRequest };
     db.push(newField);
     response.status = 201;
     response.data = newField;
@@ -52,7 +52,7 @@ const updateUser = (bodyRequest: BodyRequest, id: string) => {
     }
     response.data = null;
     response.status = 400;
-    response.message = "Receive required fields!";
+    response.message = "Data has wrong format!";
     return response;
   }
 

@@ -1,14 +1,14 @@
 export type Response = {
   status?: number;
   message?: string;
-  data?: any; //TODO:
+  data?: DBItem | DBItem[] | null;
 };
 
 export type DB = Array<DBItem>;
 
 export type DBItem = {
   id: string;
-  name: string;
+  username: string;
   age: number;
   hobbies: Array<string>;
 };

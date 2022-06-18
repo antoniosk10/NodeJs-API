@@ -4,17 +4,17 @@ const request = supertest(newServer());
 
 describe("test CRUD scenarios #1", () => {
   let tempID: string;
-  test("'GET /users' expect []", (done) => {
-    request.get("/users").then((res) => {
+  test("'GET /api/users' expect []", (done) => {
+    request.get("/api/users").then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(0);
       done();
     });
   });
-  test("'POST /users' expect received user", (done) => {
-    const expectedObj = { name: "Ivan", age: 23, hobbies: ["football"] };
+  test("'POST /api/users' expect received user", (done) => {
+    const expectedObj = { username: "Ivan", age: 23, hobbies: ["football"] };
     request
-      .post("/users")
+      .post("/api/users")
       .send(expectedObj)
       .set("Accept", "application/json")
       .then((res) => {
@@ -25,26 +25,28 @@ describe("test CRUD scenarios #1", () => {
       });
   });
 
-  test("'GET /users/{userId}' expect user by received ID", (done) => {
-    const expectedObj = [
-      {
-        id: tempID,
-        name: "Ivan",
-        age: 23,
-        hobbies: ["football"],
-      },
-    ];
-    request.get(`/users/${tempID}`).then((res) => {
+  test("'GET /api/users/{userId}' expect user by received ID", (done) => {
+    const expectedObj = {
+      id: tempID,
+      username: "Ivan",
+      age: 23,
+      hobbies: ["football"],
+    };
+    request.get(`/api/users/${tempID}`).then((res) => {
       expect(res.status).toBe(200);
       expect(res.body).toMatchObject(expectedObj);
       done();
     });
   });
 
-  test("'PUT /users/{userId}' expect changed user", (done) => {
-    const expectedObj = { name: "Anton", age: 50, hobbies: ["sleep", "eat"] };
+  test("'PUT /api/users/{userId}' expect changed user", (done) => {
+    const expectedObj = {
+      username: "Anton",
+      age: 50,
+      hobbies: ["sleep", "eat"],
+    };
     request
-      .put(`/users/${tempID}`)
+      .put(`/api/users/${tempID}`)
       .send(expectedObj)
       .set("Accept", "application/json")
       .then((res) => {
@@ -54,15 +56,15 @@ describe("test CRUD scenarios #1", () => {
       });
   });
 
-  test("'DELETE /users/{userId}' expect status 204", (done) => {
-    request.delete(`/users/${tempID}`).then((res) => {
+  test("'DELETE /api/users/{userId}' expect status 204", (done) => {
+    request.delete(`/api/users/${tempID}`).then((res) => {
       expect(res.status).toBe(204);
       done();
     });
   });
 
-  test("'GET /users/{userId}' expect message 'ID isn't exist'", (done) => {
-    request.get(`/users/${tempID}`).then((res) => {
+  test("'GET /api/users/{userId}' expect message 'ID isn't exist'", (done) => {
+    request.get(`/api/users/${tempID}`).then((res) => {
       expect(res.status).toBe(404);
       expect(res.body).toEqual("ID isn't exist");
       done();
@@ -72,10 +74,10 @@ describe("test CRUD scenarios #1", () => {
 
 describe("test CRUD scenarios #2", () => {
   let tempID: string;
-  test("'POST /users' expect received user", (done) => {
-    const expectedObj = { name: "Ivan", age: 23, hobbies: ["football"] };
+  test("'POST /api/users' expect received user", (done) => {
+    const expectedObj = { username: "Ivan", age: 23, hobbies: ["football"] };
     request
-      .post("/users")
+      .post("/api/users")
       .send(expectedObj)
       .set("Accept", "application/json")
       .then((res) => {
@@ -86,10 +88,10 @@ describe("test CRUD scenarios #2", () => {
       });
   });
 
-  test("'PATCH /users/{userId}' expect 'Method isn't available'", (done) => {
-    const expectedObj = { name: "Ivan", age: 23, hobbies: ["football"] };
+  test("'PATCH /api/users/{userId}' expect 'Method isn't available'", (done) => {
+    const expectedObj = { username: "Ivan", age: 23, hobbies: ["football"] };
     request
-      .patch(`/users/${tempID}`)
+      .patch(`/api/users/${tempID}`)
       .send(expectedObj)
       .set("Accept", "application/json")
       .then((res) => {
@@ -99,10 +101,10 @@ describe("test CRUD scenarios #2", () => {
       });
   });
 
-  test("'COPY /users/{userId}' expect 'Method isn't available'", (done) => {
-    const expectedObj = { name: "Ivan", age: 23, hobbies: ["football"] };
+  test("'COPY /api/users/{userId}' expect 'Method isn't available'", (done) => {
+    const expectedObj = { username: "Ivan", age: 23, hobbies: ["football"] };
     request
-      .copy(`/users/${tempID}`)
+      .copy(`/api/users/${tempID}`)
       .send(expectedObj)
       .set("Accept", "application/json")
       .then((res) => {
@@ -112,8 +114,8 @@ describe("test CRUD scenarios #2", () => {
       });
   });
 
-  test("'GET /users/{InvalidId}' expect message 'ID is not valid'", (done) => {
-    request.get(`/users/234456`).then((res) => {
+  test("'GET /api/users/{InvalidId}' expect message 'ID is not valid'", (done) => {
+    request.get(`/api/users/234456`).then((res) => {
       expect(res.status).toBe(400);
       expect(res.body).toEqual("ID is not valid");
       done();
@@ -130,10 +132,10 @@ describe("test CRUD scenarios #3", () => {
       done();
     });
   });
-  test("'POST /users' expect received user", (done) => {
-    const expectedObj = { name: "Ivan", age: 23, hobbies: ["football"] };
+  test("'POST /api/users' expect received user", (done) => {
+    const expectedObj = { username: "Ivan", age: 23, hobbies: ["football"] };
     request
-      .post("/users")
+      .post("/api/users")
       .send(expectedObj)
       .set("Accept", "application/json")
       .then((res) => {
@@ -143,10 +145,10 @@ describe("test CRUD scenarios #3", () => {
         done();
       });
   });
-  test("'POST /users/{userId}' expect 'Resource Not Found'", (done) => {
-    const expectedObj = { name: "Ivan", age: 23, hobbies: ["football"] };
+  test("'POST /api/users/{userId}' expect 'Resource Not Found'", (done) => {
+    const expectedObj = { username: "Ivan", age: 23, hobbies: ["football"] };
     request
-      .post(`/users/${tempID}`)
+      .post(`/api/users/${tempID}`)
       .send(expectedObj)
       .set("Accept", "application/json")
       .then((res) => {
@@ -156,10 +158,10 @@ describe("test CRUD scenarios #3", () => {
       });
   });
 
-  test("'POST /users/' without required field expect 'Data has wrong format!'", (done) => {
-    const expectedObj = { name: "Ivan", hobbies: ["football"] };
+  test("'POST /api/users/' without required field expect 'Data has wrong format!'", (done) => {
+    const expectedObj = { username: "Ivan", hobbies: ["football"] };
     request
-      .post("/users")
+      .post("/api/users")
       .send(expectedObj)
       .set("Accept", "application/json")
       .then((res) => {

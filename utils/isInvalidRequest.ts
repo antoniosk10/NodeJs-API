@@ -8,12 +8,12 @@ type Response = {
 export const isInvalidRequest = (url: string, method: string) => {
   const response: Response = {};
   const urlParts = url.split("/").filter((el) => !!el);
-  const [path, id] = urlParts;
-  if (path !== "users" || urlParts.length > 2) {
+  const [firstPath, secondPath, id] = urlParts;
+  if (firstPath !== "api" || secondPath !== "users" || urlParts.length > 3) {
     response.status = 404;
     response.message = "Resource Not Found";
     return response;
-  } else if (!uuidValidate(id) && urlParts.length !== 1) {
+  } else if (!uuidValidate(id) && urlParts.length === 3 && method !== "POST") {
     response.status = 400;
     response.message = "ID is not valid";
     return response;

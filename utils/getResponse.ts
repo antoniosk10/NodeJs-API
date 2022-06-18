@@ -7,7 +7,7 @@ import { DBItem, Response } from "../types";
 
 export const getResponse = (req: IncomingMessage, body: DBItem): Response => {
   const { url, method } = req;
-  const id = (url as string).split("/").filter((el) => !!el)[1];
+  const id = (url as string).split("/").filter((el) => !!el)[2];
 
   return (
     checkMethod(method as string) ||
